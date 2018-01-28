@@ -25,7 +25,7 @@ struct node *insert(struct node* node, int key)
 		node->right = insert(node->right, key);
 	return node;
 }
-void inorder(struct node *root)
+void binarySearchTree::inorder(struct node *root)
 {
 	if (root != NULL)
 	{
@@ -33,6 +33,26 @@ void inorder(struct node *root)
 		std::cout << root->key<<"\n";
 		inorder(root->right);
 	}
+}
+void binarySearchTree::preOrder(struct node *root)
+{
+	if (root == NULL)
+	{
+		return;
+	}
+	std::cout << root->key << "\n";
+	preOrder(root->left);
+	preOrder(root->right);
+}
+void binarySearchTree::postOrder(struct node *root)
+{
+	if (root == NULL)
+	{
+		return;
+	}
+	postOrder(root->left);
+	postOrder(root->right);
+	std::cout << root->key << "\n";
 }
 void binarySearchTree::start()
 {
@@ -45,7 +65,12 @@ void binarySearchTree::start()
 	insert(root, 70);
 	insert(root, 60);
 	insert(root, 80);
+	std::cout << "\nInorder\n";
 	inorder(root);
+	std::cout << "\nPreOrder\n";
+	preOrder(root);
+	std::cout << "\nPostOrder\n";
+	postOrder(root);
 }
 
 binarySearchTree::binarySearchTree()
