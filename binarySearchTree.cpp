@@ -3,6 +3,7 @@
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
 struct  node
 {
 	int key;
@@ -71,8 +72,60 @@ void binarySearchTree::start()
 	preOrder(root);
 	std::cout << "\nPostOrder\n";
 	postOrder(root);
+	findKeyInorder(root, 60);
+	findLCA(root, 20, 70);
 }
-
+void binarySearchTree::findKeyInorder(struct node *root, int val)
+{
+	if (root != NULL)
+	{
+		findKeyInorder(root->left,val);
+		if (root->key == val)
+		{
+			std::cout <<"Found "<< root->key << " in tree\n";
+		}
+		findKeyInorder(root->right,val);
+	}
+}
+bool binarySearchTree::findPath(struct node *root, std::vector<int> &path, int n)
+{
+	//base case
+	if (root == NULL)
+	{
+		return false;
+	}
+	path.push_back(root->key);
+	if (root->key == n)
+	{
+		return true;
+	}
+	if ((findPath(root->left, path, n)) || (findPath(root->right, path, n)))
+	{
+		return true;
+	}
+	path.pop_back();
+	return false;
+}
+int binarySearchTree::findLCA(struct node *root, int n1, int n2)
+{
+	//storing the paths of each key
+	std::vector<int> path1, path2;
+	if (!findPath(root, path1, n1) || (!findPath(root, path2, n2)))
+	{
+		return -1;
+	}
+	int i;
+	for (i = 0; i < path1.size() && i < path2.size(); i++)
+	{
+		if (path1[i] != path2[i])
+		{
+			break;
+		}
+	}
+	std::cout<<"LCA: of ("<<n1<<","<<n2<<"):"<< path1[i - 1];
+	return path1[i - 1];
+	
+}
 binarySearchTree::binarySearchTree()
 {
 }
